@@ -1,0 +1,1 @@
+A docker image based on the phusion/baseimage image used for running the tests for the 180vita web applications. It comes simply with php5-cli and the php curl and mongo extensions installed, and the packages required by Shippable as well.
