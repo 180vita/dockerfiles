@@ -35,6 +35,7 @@ RUN chown -R www-data:www-data /var/lib/nginx
 # Install mongodb
 RUN pecl install mongo
 
+# Enable php mcrypt extension.
 RUN ln -s /etc/php5/mods-available/mcrypt.ini /etc/php5/fpm/conf.d/20-mcrypt.ini
 RUN php5enmod mcrypt
 
