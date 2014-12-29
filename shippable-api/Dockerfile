@@ -6,19 +6,12 @@ MAINTAINER 180vita Development Team <devops@ipokervip.net>
 RUN apt-get update
 
 # Install Nginx.
-RUN apt-get install -y nginx && \
-    chown -R www-data:www-data /var/lib/nginx
-
-# Website vhosts
-ADD ./nginx.conf /etc/nginx/sites-available/default
+RUN apt-get install -y nginx
 
 # Install php5-cli and curl/mongo extensions.
 RUN apt-get install -y php5-fpm php5-gd php5-ldap \
     php5-mcrypt php5-xcache php5-curl php5-mysql \
     php5-xdebug php-pear php5-dev php5-mongo
-
-# Install mongodb
-RUN pecl install mongo
 
 # Install packages required by Shippable.
 RUN apt-get install -y binutils build-essential cpp cpp-4.8 dpkg-dev fakeroot g++ g++-4.8 gcc \
@@ -34,6 +27,13 @@ RUN apt-get install -y binutils build-essential cpp cpp-4.8 dpkg-dev fakeroot g+
 # Clean up.
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Config nginx
+ADD ./nginx.conf /etc/nginx/sites-available/default
+RUN chown -R www-data:www-data /var/lib/nginx
+
+# Install mongodb
+RUN pecl install mongo
 
 RUN ln -s /etc/php5/mods-available/mcrypt.ini /etc/php5/fpm/conf.d/20-mcrypt.ini
 RUN php5enmod mcrypt
