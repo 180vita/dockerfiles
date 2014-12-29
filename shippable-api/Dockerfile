@@ -28,7 +28,7 @@ RUN apt-get install -y binutils build-essential cpp cpp-4.8 dpkg-dev fakeroot g+
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Config nginx
+# Configure nginx.
 ADD ./nginx.conf /etc/nginx/sites-available/default
 RUN chown -R www-data:www-data /var/lib/nginx
 
