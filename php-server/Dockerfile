@@ -16,6 +16,9 @@ RUN apt-get -y install php5-fpm php5-gd php5-ldap \
 # Install git.
 RUN apt-get -y install git
 
+# Install supervisor.
+RUN apt-get -y install supervisor
+
 # Clean up.
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -37,12 +40,14 @@ RUN cd /usr/local/bin && \
 # side effects if not being called.
 RUN composer global require "fxp/composer-asset-plugin:1.0.0-beta4"
 
-
 # Configure nginx.
 ADD ./nginx.conf /etc/nginx/sites-available/default
 RUN chown -R www-data:www-data /var/lib/nginx
 
+# Configure supervisor.
+ADD ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 # Expose ports.
 EXPOSE 80 443
 
-CMD service php5-fpm start && service nginx start
+CMD ["/usr/bin/supervisord"]
